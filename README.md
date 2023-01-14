@@ -18,7 +18,7 @@ The user interface is designed to be sleek and user-friendly, with all the eleme
 
 The project uses React and the react-monaco-editor package, which allows you to use the Monaco editor in a React application. The project also uses the performance API to calculate the execution time of the code.
 
-Overall, this project is a powerful and user-friendly tool for Java developers, providing a convenient and efficient way to write, run, and debug Java code in the browser.
+Overall, this project is a powerful and user-friendly tool for Java developers, providing a convenient and efficient way to write, and run Java code in the browser.
 
 
 ## How to Run the UI
