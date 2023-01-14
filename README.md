@@ -16,5 +16,6 @@ The project uses React and the react-monaco-editor package, which allows you to 
 
 Overall, this project is a powerful and user-friendly tool for Java developers, providing a convenient and efficient way to write, run, and debug Java code in the browser.
 
-[![Foo](<img width="1430" alt="javac-compileNow" src="https://user-images.githubusercontent.com/429073/212443073-87e5a3b6-61fe-4d87-ad55-13f9214a7c96.png">)
 
+
+<img width="1430" alt="javac-compileNow" src="https://user-images.githubusercontent.com/429073/212443274-22abfb98-760b-4060-81bd-d18adcec22f7.png">
