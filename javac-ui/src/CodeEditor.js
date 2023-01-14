@@ -3,6 +3,8 @@ import './CodeEditor.css';
 import React, {useState} from 'react';
 import axios from 'axios';
 import MonacoEditor from 'react-monaco-editor';
+import * as monaco from 'monaco-editor';
+import 'monaco-editor/esm/vs/basic-languages/java/java.contribution';
 
 function CodeEditor() {
   const sampleCode = "public class HelloWorld {\n" +
@@ -28,7 +30,6 @@ function CodeEditor() {
     try {
       const response = await axios.post(
         'http://localhost:8080/api/v1/java/run-code', {code, input});
-      console.log(response);
       setOutput(response.data.result);
       setStatus(response.data.status);
       setExecutionTime(response.data.executionTime);
@@ -48,7 +49,7 @@ function CodeEditor() {
               width="100%"
               height="300px"
               language="java"
-              theme="vs-dark"
+              theme="vs-light"
               value={code}
               options={{
                 fontSize: "14px",
