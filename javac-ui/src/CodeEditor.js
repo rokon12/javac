@@ -51,6 +51,8 @@ function CodeEditor() {
               theme="vs-dark"
               value={code}
               options={{
+                fontSize: "14px",
+                scrollBeyondLastLine:false,
                 formatOnPaste: true,
                 selectOnLineNumbers: true
               }}
