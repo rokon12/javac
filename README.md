@@ -4,7 +4,11 @@ This project is an online Java compiler that allows users to write, run, and deb
 
 The user interface is composed of a code editor powered by the Monaco editor, an input area where the user can provide input for the code, an output area where the results of the code execution will be displayed, and a "Run" button that triggers the code execution.
 
-The code editor uses the Monaco editor, which is a powerful and feature-rich code editor that provides syntax highlighting, code completion, and error checking for multiple programming languages, including Java.
+The code editor uses the Monaco editor, which is a powerful and feature-rich code editor that provides syntax highlighting, code completion, and error checking for Java.
+
+<img width="1125" alt="image" src="https://user-images.githubusercontent.com/429073/212458399-b9d3d731-baaa-451b-bb0e-20bcb0ad297f.png">
+
+The code editor uses the Monaco editor, which is a powerful and feature-rich code editor that provides syntax highlighting, code completion, and error checking for Java.
 
 The input and output areas are standard text areas that allow the user to input data and view the results of the code execution.
 
@@ -16,7 +20,6 @@ The project uses React and the react-monaco-editor package, which allows you to 
 
 Overall, this project is a powerful and user-friendly tool for Java developers, providing a convenient and efficient way to write, run, and debug Java code in the browser.
 
-<img width="1125" alt="image" src="https://user-images.githubusercontent.com/429073/212457838-4f6f081c-ed5b-4b6c-a387-3cf08bd704e3.png">
 
 ## How to Run the UI
 The UI is built using React, so after cloning the repository, run the following command:
