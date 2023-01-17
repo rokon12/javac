@@ -31,4 +31,6 @@ This will start the UI on your browser.
 ## How to Run the Backend
 The backend application is a traditional Spring Boot application, but it requires Java 19.
 
-NOTE: This project took inspiration and idea from this: https://github.com/TangBean/OnlineExecutor and did a few things differently. 
+**NOTE:** 
+
+This project took inspiration and idea from this: [OnlineExecutor](https://github.com/TangBean/OnlineExecutor) and did a few things differently. 
