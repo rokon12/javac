@@ -33,6 +33,7 @@
   min-height: 50px;
   padding: 8px;
   font-family: monospace;
+  font-size: 14px;
   border: none;
   border-radius: 4px;
   resize: none;
@@ -40,7 +41,7 @@
 
 .code-editor__output {
   width: 100%;
-  min-height: 150px;
+  min-height: 100px;
   padding: 8px;
   font-family: monospace;
   border: none;

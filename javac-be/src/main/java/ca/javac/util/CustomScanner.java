@@ -66,10 +66,13 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * A simple text HackScanner which can parse primitive types and strings using
+ * Note: I haven't written the class, but found on GitHub, need the find the original author
+ * and then give his credit where id deu
+ *
+ * A simple text CustomScanner which can parse primitive types and strings using
  * regular expressions.
  *
- * <p>A {@code HackScanner} breaks its input into tokens using a
+ * <p>A {@code CustomScanner} breaks its input into tokens using a
  * delimiter pattern, which by default matches whitespace. The resulting
  * tokens may then be converted into values of different types using the
  * various {@code next} methods.
@@ -77,24 +80,24 @@ import java.util.stream.StreamSupport;
  * <p>For example, this code allows a user to read a number from
  * {@code System.in}:
  * <blockquote><pre>{@code
- *     HackScanner sc = new HackScanner(System.in);
+ *     CustomScanner sc = new CustomScanner(System.in);
  *     int i = sc.nextInt();
  * }</pre></blockquote>
  *
  * <p>As another example, this code allows {@code long} types to be
  * assigned from entries in a file {@code myNumbers}:
  * <blockquote><pre>{@code
- *      HackScanner sc = new HackScanner(new File("myNumbers"));
+ *      CustomScanner sc = new CustomScanner(new File("myNumbers"));
  *      while (sc.hasNextLong()) {
  *          long aLong = sc.nextLong();
  *      }
  * }</pre></blockquote>
  *
- * <p>The HackScanner can also use delimiters other than whitespace. This
+ * <p>The CustomScanner can also use delimiters other than whitespace. This
  * example reads several items in from a string:
  * <blockquote><pre>{@code
  *     String input = "1 fish 2 fish red fish blue fish";
- *     HackScanner s = new HackScanner(input).useDelimiter("\\s*fish\\s*");
+ *     CustomScanner s = new CustomScanner(input).useDelimiter("\\s*fish\\s*");
  *     System.out.println(s.nextInt());
  *     System.out.println(s.nextInt());
  *     System.out.println(s.next());
@@ -114,7 +117,7 @@ import java.util.stream.StreamSupport;
  * expression to parse all four tokens at once:
  * <blockquote><pre>{@code
  *     String input = "1 fish 2 fish red fish blue fish";
- *     HackScanner s = new HackScanner(input);
+ *     CustomScanner s = new CustomScanner(input);
  *     s.findInLine("(\\d+) fish (\\d+) fish (\\w+) fish (\\w+)");
  *     MatchResult result = s.match();
  *     for (int i=1; i<=result.groupCount(); i++)
@@ -123,9 +126,9 @@ import java.util.stream.StreamSupport;
  * }</pre></blockquote>
  *
  * <p>The <a id="default-delimiter">default whitespace delimiter</a> used
- * by a HackScanner is as recognized by {@link Character#isWhitespace(char)
+ * by a CustomScanner is as recognized by {@link Character#isWhitespace(char)
  * Character.isWhitespace()}. The {@link #reset reset()}
- * method will reset the value of the HackScanner's delimiter to the default
+ * method will reset the value of the CustomScanner's delimiter to the default
  * whitespace delimiter regardless of whether it was previously changed.
  *
  * <p>A scanning operation may block waiting for input.
@@ -147,7 +150,7 @@ import java.util.stream.StreamSupport;
  * input and thus can be used in special circumstances where delimiters are
  * not relevant. These methods may block waiting for more input.
  *
- * <p>When a HackScanner throws an {@link InputMismatchException}, the HackScanner
+ * <p>When a CustomScanner throws an {@link InputMismatchException}, the CustomScanner
  * will not pass the token that caused the exception, so that it may be
  * retrieved or skipped via some other method.
  *
@@ -157,37 +160,37 @@ import java.util.stream.StreamSupport;
  * pattern {@code "\\s"} could return empty tokens since it only passes one
  * space at a time.
  *
- * <p> A HackScanner can read text from any object which implements the {@link
+ * <p> A CustomScanner can read text from any object which implements the {@link
  * java.lang.Readable} interface.  If an invocation of the underlying
  * readable's {@link java.lang.Readable#read read()} method throws an {@link
- * java.io.IOException} then the HackScanner assumes that the end of the input
+ * java.io.IOException} then the CustomScanner assumes that the end of the input
  * has been reached.  The most recent {@code IOException} thrown by the
  * underlying readable can be retrieved via the {@link #ioException} method.
  *
- * <p>When a {@code HackScanner} is closed, it will close its input source
+ * <p>When a {@code CustomScanner} is closed, it will close its input source
  * if the source implements the {@link java.io.Closeable} interface.
  *
- * <p>A {@code HackScanner} is not safe for multithreaded use without
+ * <p>A {@code CustomScanner} is not safe for multithreaded use without
  * external synchronization.
  *
  * <p>Unless otherwise mentioned, passing a {@code null} parameter into
- * any method of a {@code HackScanner} will cause a
+ * any method of a {@code CustomScanner} will cause a
  * {@code NullPointerException} to be thrown.
  *
- * <p>A HackScanner will default to interpreting numbers as decimal unless a
+ * <p>A CustomScanner will default to interpreting numbers as decimal unless a
  * different radix has been set by using the {@link #useRadix} method. The
- * {@link #reset} method will reset the value of the HackScanner's radix to
+ * {@link #reset} method will reset the value of the CustomScanner's radix to
  * {@code 10} regardless of whether it was previously changed.
  *
  * <h2> <a id="localized-numbers">Localized numbers</a> </h2>
  *
  * <p> An instance of this class is capable of scanning numbers in the standard
- * formats as well as in the formats of the HackScanner's locale. A HackScanner's
+ * formats as well as in the formats of the CustomScanner's locale. A CustomScanner's
  * <a id="initial-locale">initial locale </a>is the value returned by the {@link
  * java.util.Locale#getDefault(Locale.Category)
  * Locale.getDefault(Locale.Category.FORMAT)} method; it may be changed via the {@link
  * #useLocale useLocale()} method. The {@link #reset} method will reset the value of the
- * HackScanner's locale to the initial locale regardless of whether it was
+ * CustomScanner's locale to the initial locale regardless of whether it was
  * previously changed.
  *
  * <p>The localized formats are defined in terms of the following parameters,
@@ -334,11 +337,11 @@ import java.util.stream.StreamSupport;
 
 /**
  * The entire Scanner class is copied from this class. The only difference is to modify this constructor:
- * HackScanner(InputStream source)
+ * CustomScanner(InputStream source)
  * <p>
  * Then modify all the errors reported, the main modification:
- * 1. The class name of the constructor: Scanner -> HackScanner
- * 2. The return parameter types of several methods: java.util.Scanner -> org.olexec.execute.HackScanner
+ * 1. The class name of the constructor: Scanner -> CustomScanner
+ * 2. The return parameter types of several methods: java.util.Scanner -> org.olexec.execute.CustomScanner
  * <p>
  * PS. It would be nice if the Scanner class can extend, so that you don't have to write so much. Now this class looks so scary...
  */
@@ -353,7 +356,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	// Size of internal character buffer
 	private static final int BUFFER_SIZE = 1024; // change to 1024;
 
-	// The index into the buffer currently held by the HackScanner
+	// The index into the buffer currently held by the CustomScanner
 	private int position;
 
 	// Internal matcher used for finding delimiters
@@ -383,7 +386,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	// Boolean indicating if a delim has been skipped this operation
 	private boolean skipped = false;
 
-	// A store of a position that the HackScanner may fall back to
+	// A store of a position that the CustomScanner may fall back to
 	private int savedScannerPosition = -1;
 
 	// A cache of the last primitive type scanned
@@ -392,16 +395,16 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	// Boolean indicating if a match result is available
 	private boolean matchValid = false;
 
-	// Boolean indicating if this HackScanner has been closed
+	// Boolean indicating if this CustomScanner has been closed
 	private boolean closed = false;
 
-	// The current radix used by this HackScanner
+	// The current radix used by this CustomScanner
 	private int radix = 10;
 
-	// The default radix for this HackScanner
+	// The default radix for this CustomScanner
 	private int defaultRadix = 10;
 
-	// The locale used by this HackScanner
+	// The locale used by this CustomScanner
 	private Locale locale = null;
 
 	// A cache of the last few recently used Patterns
@@ -410,7 +413,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	// A holder of the last IOException encountered
 	private IOException lastException;
 
-	// Number of times this HackScanner's state has been modified.
+	// Number of times this CustomScanner's state has been modified.
 	// Generally incremented on most public APIs and checked
 	// within spliterator implementations.
 	int modCount;
@@ -467,7 +470,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 		// \\p{javaDigit} is not guaranteed to be appropriate
 		// here but what can we do? The final authority will be
 		// whatever parse method is invoked, so ultimately the
-		// HackScanner will do the right thing
+		// CustomScanner will do the right thing
 		String digit = "((?i)[" + radixDigits + "\\p{javaDigit}])";
 		String groupedNumeral = "(" + non0Digit + digit + "?" + digit + "?(" +
 						groupSeparator + digit + digit + digit + ")+)";
@@ -568,7 +571,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	// Constructors
 
 	/**
-	 * Constructs a {@code HackScanner} that returns values scanned
+	 * Constructs a {@code CustomScanner} that returns values scanned
 	 * from the specified source delimited by the specified pattern.
 	 *
 	 * @param source  A character source implementing the Readable interface
@@ -590,7 +593,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified source.
 	 *
 	 * @param source A character source implementing the {@link Readable}
@@ -601,7 +604,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified input stream. Bytes from the stream are converted
 	 * into characters using the underlying platform's
 	 * {@linkplain Charset#defaultCharset() default charset}.
@@ -615,7 +618,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified input stream. Bytes from the stream are converted
 	 * into characters using the specified charset.
 	 *
@@ -630,7 +633,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified input stream. Bytes from the stream are converted
 	 * into characters using the specified charset.
 	 *
@@ -676,7 +679,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified file. Bytes from the file are converted into
 	 * characters using the underlying platform's
 	 * {@linkplain Charset#defaultCharset() default charset}.
@@ -689,7 +692,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified file. Bytes from the file are converted into
 	 * characters using the specified charset.
 	 *
@@ -706,7 +709,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified file. Bytes from the file are converted into
 	 * characters using the specified charset.
 	 *
@@ -746,7 +749,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified file. Bytes from the file are converted into
 	 * characters using the underlying platform's
 	 * {@linkplain Charset#defaultCharset() default charset}.
@@ -761,7 +764,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified file. Bytes from the file are converted into
 	 * characters using the specified charset.
 	 *
@@ -777,7 +780,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified file. Bytes from the file are converted into
 	 * characters using the specified charset.
 	 *
@@ -792,7 +795,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified string.
 	 *
 	 * @param source A string to scan
@@ -802,7 +805,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified channel. Bytes from the source are converted into
 	 * characters using the underlying platform's
 	 * {@linkplain Charset#defaultCharset() default charset}.
@@ -819,7 +822,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified channel. Bytes from the source are converted into
 	 * characters using the specified charset.
 	 *
@@ -835,7 +838,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Constructs a new {@code HackScanner} that produces values scanned
+	 * Constructs a new {@code CustomScanner} that produces values scanned
 	 * from the specified channel. Bytes from the source are converted into
 	 * characters using the specified charset.
 	 *
@@ -897,7 +900,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	// Also clears both the regular cache and the type cache
 	private void useTypeCache() {
 		if (closed)
-			throw new IllegalStateException("HackScanner closed");
+			throw new IllegalStateException("CustomScanner closed");
 		position = hasNextPosition;
 		hasNextPattern = null;
 		typeCache = null;
@@ -1179,24 +1182,24 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 		return false;
 	}
 
-	// Throws if the HackScanner is closed
+	// Throws if the CustomScanner is closed
 	private void ensureOpen() {
 		if (closed)
-			throw new IllegalStateException("HackScanner closed");
+			throw new IllegalStateException("CustomScanner closed");
 	}
 
 	// Public methods
 
 	/**
-	 * Closes this HackScanner.
+	 * Closes this CustomScanner.
 	 *
-	 * <p> If this HackScanner has not yet been closed then if its underlying
+	 * <p> If this CustomScanner has not yet been closed then if its underlying
 	 * {@linkplain Readable readable} also implements the {@link
 	 * Closeable} interface then the readable's {@code close} method
-	 * will be invoked.  If this HackScanner is already closed then invoking this
+	 * will be invoked.  If this CustomScanner is already closed then invoking this
 	 * method will have no effect.
 	 *
-	 * <p>Attempting to perform search operations after a HackScanner has
+	 * <p>Attempting to perform search operations after a CustomScanner has
 	 * been closed will result in an {@link IllegalStateException}.
 	 */
 	public void close() {
@@ -1216,30 +1219,30 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 
 	/**
 	 * Returns the {@code IOException} last thrown by this
-	 * {@code HackScanner}'s underlying {@code Readable}. This method
+	 * {@code CustomScanner}'s underlying {@code Readable}. This method
 	 * returns {@code null} if no such exception exists.
 	 *
-	 * @return the last exception thrown by this HackScanner's readable
+	 * @return the last exception thrown by this CustomScanner's readable
 	 */
 	public IOException ioException() {
 		return lastException;
 	}
 
 	/**
-	 * Returns the {@code Pattern} this {@code HackScanner} is currently
+	 * Returns the {@code Pattern} this {@code CustomScanner} is currently
 	 * using to match delimiters.
 	 *
-	 * @return this HackScanner's delimiting pattern.
+	 * @return this CustomScanner's delimiting pattern.
 	 */
 	public Pattern delimiter() {
 		return delimPattern;
 	}
 
 	/**
-	 * Sets this HackScanner's delimiting pattern to the specified pattern.
+	 * Sets this CustomScanner's delimiting pattern to the specified pattern.
 	 *
 	 * @param pattern A delimiting pattern
-	 * @return this HackScanner
+	 * @return this CustomScanner
 	 */
 	public CustomScanner useDelimiter(Pattern pattern) {
 		modCount++;
@@ -1248,18 +1251,18 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Sets this HackScanner's delimiting pattern to a pattern constructed from
+	 * Sets this CustomScanner's delimiting pattern to a pattern constructed from
 	 * the specified {@code String}.
 	 *
 	 * <p> An invocation of this method of the form
 	 * {@code useDelimiter(pattern)} behaves in exactly the same way as the
 	 * invocation {@code useDelimiter(Pattern.compile(pattern))}.
 	 *
-	 * <p> Invoking the {@link #reset} method will set the HackScanner's delimiter
+	 * <p> Invoking the {@link #reset} method will set the CustomScanner's delimiter
 	 * to the <a href= "#default-delimiter">default</a>.
 	 *
 	 * @param pattern A string specifying a delimiting pattern
-	 * @return this HackScanner
+	 * @return this CustomScanner
 	 */
 	public CustomScanner useDelimiter(String pattern) {
 		modCount++;
@@ -1268,106 +1271,35 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns this HackScanner's locale.
+	 * Returns this CustomScanner's locale.
 	 *
-	 * <p>A HackScanner's locale affects many elements of its default
+	 * <p>A CustomScanner's locale affects many elements of its default
 	 * primitive matching regular expressions; see
 	 * <a href= "#localized-numbers">localized numbers</a> above.
 	 *
-	 * @return this HackScanner's locale
+	 * @return this CustomScanner's locale
 	 */
 	public Locale locale() {
 		return this.locale;
 	}
 
 	/**
-	 * Sets this HackScanner's locale to the specified locale.
+	 * Returns this CustomScanner's default radix.
 	 *
-	 * <p>A HackScanner's locale affects many elements of its default
-	 * primitive matching regular expressions; see
-	 * <a href= "#localized-numbers">localized numbers</a> above.
-	 *
-	 * <p>Invoking the {@link #reset} method will set the HackScanner's locale to
-	 * the <a href= "#initial-locale">initial locale</a>.
-	 *
-	 * @param locale A string specifying the locale to use
-	 * @return this HackScanner
-	 */
-//	public HackScanner useLocale(Locale locale) {
-//		if (locale.equals(this.locale))
-//			return this;
-//
-//		modCount++;
-//		this.locale = locale;
-//
-//		DecimalFormat df = null;
-//		NumberFormat nf = NumberFormat.getNumberInstance(locale);
-//		DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(locale);
-//		if (nf instanceof DecimalFormat) {
-//			df = (DecimalFormat) nf;
-//		} else {
-//
-//			// In case where NumberFormat.getNumberInstance() returns
-//			// other instance (non DecimalFormat) based on the provider
-//			// used and java.text.spi.NumberFormatProvider implementations,
-//			// DecimalFormat constructor is used to obtain the instance
-//			LocaleProviderAdapter adapter = LocaleProviderAdapter
-//							.getAdapter(NumberFormatProvider.class, locale);
-//			if (!(adapter instanceof ResourceBundleBasedAdapter)) {
-//				adapter = LocaleProviderAdapter.getResourceBundleBased();
-//			}
-//			String[] all = adapter.getLocaleResources(locale)
-//							.getNumberPatterns();
-//			df = new DecimalFormat(all[0], dfs);
-//		}
-//
-//		// These must be literalized to avoid collision with regex
-//		// metacharacters such as dot or parenthesis
-//		groupSeparator =   "\\x{" + Integer.toHexString(dfs.getGroupingSeparator()) + "}";
-//		decimalSeparator = "\\x{" + Integer.toHexString(dfs.getDecimalSeparator()) + "}";
-//
-//		// Quoting the nonzero length locale-specific things
-//		// to avoid potential conflict with metacharacters
-//		nanString = Pattern.quote(dfs.getNaN());
-//		infinityString = Pattern.quote(dfs.getInfinity());
-//		positivePrefix = df.getPositivePrefix();
-//		if (!positivePrefix.isEmpty())
-//			positivePrefix = Pattern.quote(positivePrefix);
-//		negativePrefix = df.getNegativePrefix();
-//		if (!negativePrefix.isEmpty())
-//			negativePrefix = Pattern.quote(negativePrefix);
-//		positiveSuffix = df.getPositiveSuffix();
-//		if (!positiveSuffix.isEmpty())
-//			positiveSuffix = Pattern.quote(positiveSuffix);
-//		negativeSuffix = df.getNegativeSuffix();
-//		if (!negativeSuffix.isEmpty())
-//			negativeSuffix = Pattern.quote(negativeSuffix);
-//
-//		// Force rebuilding and recompilation of locale dependent
-//		// primitive patterns
-//		integerPattern = null;
-//		floatPattern = null;
-//
-//		return this;
-//	}
-
-	/**
-	 * Returns this HackScanner's default radix.
-	 *
-	 * <p>A HackScanner's radix affects elements of its default
+	 * <p>A CustomScanner's radix affects elements of its default
 	 * number matching regular expressions; see
 	 * <a href= "#localized-numbers">localized numbers</a> above.
 	 *
-	 * @return the default radix of this HackScanner
+	 * @return the default radix of this CustomScanner
 	 */
 	public int radix() {
 		return this.defaultRadix;
 	}
 
 	/**
-	 * Sets this HackScanner's default radix to the specified radix.
+	 * Sets this CustomScanner's default radix to the specified radix.
 	 *
-	 * <p>A HackScanner's radix affects elements of its default
+	 * <p>A CustomScanner's radix affects elements of its default
 	 * number matching regular expressions; see
 	 * <a href= "#localized-numbers">localized numbers</a> above.
 	 *
@@ -1375,11 +1307,11 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * or greater than {@link Character#MAX_RADIX Character.MAX_RADIX}, then an
 	 * {@code IllegalArgumentException} is thrown.
 	 *
-	 * <p>Invoking the {@link #reset} method will set the HackScanner's radix to
+	 * <p>Invoking the {@link #reset} method will set the CustomScanner's radix to
 	 * {@code 10}.
 	 *
 	 * @param radix The radix to use when scanning numbers
-	 * @return this HackScanner
+	 * @return this CustomScanner
 	 * @throws IllegalArgumentException if radix is out of range
 	 */
 	public CustomScanner useRadix(int radix) {
@@ -1410,11 +1342,11 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 
 	/**
 	 * Returns the match result of the last scanning operation performed
-	 * by this HackScanner. This method throws {@code IllegalStateException}
+	 * by this CustomScanner. This method throws {@code IllegalStateException}
 	 * if no match has been performed, or if the last match was
 	 * not successful.
 	 *
-	 * <p>The various {@code next} methods of {@code HackScanner}
+	 * <p>The various {@code next} methods of {@code CustomScanner}
 	 * make a match result available if they complete without throwing an
 	 * exception. For instance, after an invocation of the {@link #nextInt}
 	 * method that returned an int, this method returns a
@@ -1434,15 +1366,15 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * <p>Returns the string representation of this {@code HackScanner}. The
-	 * string representation of a {@code HackScanner} contains information
+	 * <p>Returns the string representation of this {@code CustomScanner}. The
+	 * string representation of a {@code CustomScanner} contains information
 	 * that may be useful for debugging. The exact format is unspecified.
 	 *
-	 * @return The string representation of this HackScanner
+	 * @return The string representation of this CustomScanner
 	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("java.util.HackScanner");
+		sb.append("java.util.CustomScanner");
 		sb.append("[delimiters=" + delimPattern + "]");
 		sb.append("[position=" + position + "]");
 		sb.append("[match valid=" + matchValid + "]");
@@ -1461,12 +1393,12 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if this HackScanner has another token in its input.
+	 * Returns true if this CustomScanner has another token in its input.
 	 * This method may block while waiting for input to scan.
-	 * The HackScanner does not advance past any input.
+	 * The CustomScanner does not advance past any input.
 	 *
-	 * @return true if and only if this HackScanner has another token
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @return true if and only if this CustomScanner has another token
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 * @see Iterator
 	 */
 	public boolean hasNext() {
@@ -1484,7 +1416,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Finds and returns the next complete token from this HackScanner.
+	 * Finds and returns the next complete token from this CustomScanner.
 	 * A complete token is preceded and followed by input that matches
 	 * the delimiter pattern. This method may block while waiting for input
 	 * to scan, even if a previous invocation of {@link #hasNext} returned
@@ -1492,7 +1424,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 *
 	 * @return the next token
 	 * @throws NoSuchElementException if no more tokens are available
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 * @see Iterator
 	 */
 	public String next() {
@@ -1526,16 +1458,16 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 
 	/**
 	 * Returns true if the next token matches the pattern constructed from the
-	 * specified string. The HackScanner does not advance past any input.
+	 * specified string. The CustomScanner does not advance past any input.
 	 *
 	 * <p> An invocation of this method of the form {@code hasNext(pattern)}
 	 * behaves in exactly the same way as the invocation
 	 * {@code hasNext(Pattern.compile(pattern))}.
 	 *
 	 * @param pattern a string specifying the pattern to scan
-	 * @return true if and only if this HackScanner has another token matching
+	 * @return true if and only if this CustomScanner has another token matching
 	 * the specified pattern
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNext(String pattern) {
 		return hasNext(patternCache.forName(pattern));
@@ -1543,7 +1475,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 
 	/**
 	 * Returns the next token if it matches the pattern constructed from the
-	 * specified string.  If the match is successful, the HackScanner advances
+	 * specified string.  If the match is successful, the CustomScanner advances
 	 * past the input that matched the pattern.
 	 *
 	 * <p> An invocation of this method of the form {@code next(pattern)}
@@ -1553,7 +1485,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @param pattern a string specifying the pattern to scan
 	 * @return the next token
 	 * @throws NoSuchElementException if no such tokens are available
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public String next(String pattern) {
 		return next(patternCache.forName(pattern));
@@ -1563,12 +1495,12 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Returns true if the next complete token matches the specified pattern.
 	 * A complete token is prefixed and postfixed by input that matches
 	 * the delimiter pattern. This method may block while waiting for input.
-	 * The HackScanner does not advance past any input.
+	 * The CustomScanner does not advance past any input.
 	 *
 	 * @param pattern the pattern to scan for
-	 * @return true if and only if this HackScanner has another token matching
+	 * @return true if and only if this CustomScanner has another token matching
 	 * the specified pattern
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNext(Pattern pattern) {
 		ensureOpen();
@@ -1595,13 +1527,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Returns the next token if it matches the specified pattern. This
 	 * method may block while waiting for input to scan, even if a previous
 	 * invocation of {@link #hasNext(Pattern)} returned {@code true}.
-	 * If the match is successful, the HackScanner advances past the input that
+	 * If the match is successful, the CustomScanner advances past the input that
 	 * matched the pattern.
 	 *
 	 * @param pattern the pattern to scan for
 	 * @return the next token
 	 * @throws NoSuchElementException if no more tokens are available
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public String next(Pattern pattern) {
 		ensureOpen();
@@ -1630,12 +1562,12 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if there is another line in the input of this HackScanner.
-	 * This method may block while waiting for input. The HackScanner does not
+	 * Returns true if there is another line in the input of this CustomScanner.
+	 * This method may block while waiting for input. The CustomScanner does not
 	 * advance past any input.
 	 *
-	 * @return true if and only if this HackScanner has another line of input
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @return true if and only if this CustomScanner has another line of input
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextLine() {
 		saveState();
@@ -1659,7 +1591,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Advances this HackScanner past the current line and returns the input
+	 * Advances this CustomScanner past the current line and returns the input
 	 * that was skipped.
 	 * <p>
 	 * This method returns the rest of the current line, excluding any line
@@ -1672,7 +1604,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 *
 	 * @return the line that was skipped
 	 * @throws NoSuchElementException if no line was found
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public String nextLine() {
 		modCount++;
@@ -1705,7 +1637,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 *
 	 * @param pattern a string specifying the pattern to search for
 	 * @return the text that matched the specified pattern
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public String findInLine(String pattern) {
 		return findInLine(patternCache.forName(pattern));
@@ -1714,10 +1646,10 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	/**
 	 * Attempts to find the next occurrence of the specified pattern ignoring
 	 * delimiters. If the pattern is found before the next line separator, the
-	 * HackScanner advances past the input that matched and returns the string that
+	 * CustomScanner advances past the input that matched and returns the string that
 	 * matched the pattern.
 	 * If no such pattern is detected in the input up to the next line
-	 * separator, then {@code null} is returned and the HackScanner's
+	 * separator, then {@code null} is returned and the CustomScanner's
 	 * position is unchanged. This method may block waiting for input that
 	 * matches the pattern.
 	 *
@@ -1727,7 +1659,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 *
 	 * @param pattern the pattern to scan for
 	 * @return the text that matched the specified pattern
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public String findInLine(Pattern pattern) {
 		ensureOpen();
@@ -1773,7 +1705,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @param pattern a string specifying the pattern to search for
 	 * @param horizon the search horizon
 	 * @return the text that matched the specified pattern
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if horizon is negative
 	 */
 	public String findWithinHorizon(String pattern, int horizon) {
@@ -1785,15 +1717,15 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 *
 	 * <p>This method searches through the input up to the specified
 	 * search horizon, ignoring delimiters. If the pattern is found the
-	 * HackScanner advances past the input that matched and returns the string
+	 * CustomScanner advances past the input that matched and returns the string
 	 * that matched the pattern. If no such pattern is detected then the
-	 * null is returned and the HackScanner's position remains unchanged. This
+	 * null is returned and the CustomScanner's position remains unchanged. This
 	 * method may block waiting for input that matches the pattern.
 	 *
-	 * <p>A HackScanner will never search more than {@code horizon} code
+	 * <p>A CustomScanner will never search more than {@code horizon} code
 	 * points beyond its current position. Note that a match may be clipped
 	 * by the horizon; that is, an arbitrary match result may have been
-	 * different if the horizon had been larger. The HackScanner treats the
+	 * different if the horizon had been larger. The CustomScanner treats the
 	 * horizon as a transparent, non-anchoring bound (see {@link
 	 * Matcher#useTransparentBounds} and {@link Matcher#useAnchoringBounds}).
 	 *
@@ -1808,7 +1740,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @param pattern the pattern to scan for
 	 * @param horizon the search horizon
 	 * @return the text that matched the specified pattern
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if horizon is negative
 	 */
 	public String findWithinHorizon(Pattern pattern, int horizon) {
@@ -1844,8 +1776,8 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * {@code NoSuchElementException} is thrown.
 	 *
 	 * <p>Since this method seeks to match the specified pattern starting at
-	 * the HackScanner's current position, patterns that can match a lot of
-	 * input (".*", for example) may cause the HackScanner to buffer a large
+	 * the CustomScanner's current position, patterns that can match a lot of
+	 * input (".*", for example) may cause the CustomScanner to buffer a large
 	 * amount of input.
 	 *
 	 * <p>Note that it is possible to skip something without risking a
@@ -1853,9 +1785,9 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * match nothing, e.g., {@code sc.skip("[ \t]*")}.
 	 *
 	 * @param pattern a string specifying the pattern to skip over
-	 * @return this HackScanner
+	 * @return this CustomScanner
 	 * @throws NoSuchElementException if the specified pattern is not found
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public CustomScanner skip(Pattern pattern) {
 		ensureOpen();
@@ -1887,8 +1819,8 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * {@code skip(Pattern.compile(pattern))}.
 	 *
 	 * @param pattern a string specifying the pattern to skip over
-	 * @return this HackScanner
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @return this CustomScanner
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public CustomScanner skip(String pattern) {
 		return skip(patternCache.forName(pattern));
@@ -1897,14 +1829,14 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	// Convenience methods for scanning primitives
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a boolean value using a case insensitive pattern
-	 * created from the string "true|false".  The HackScanner does not
+	 * created from the string "true|false".  The CustomScanner does not
 	 * advance past the input that matched.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * boolean value
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextBoolean() {
 		return hasNext(boolPattern());
@@ -1914,13 +1846,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Scans the next token of the input into a boolean value and returns
 	 * that value. This method will throw {@code InputMismatchException}
 	 * if the next token cannot be translated into a valid boolean value.
-	 * If the match is successful, the HackScanner advances past the input that
+	 * If the match is successful, the CustomScanner advances past the input that
 	 * matched.
 	 *
 	 * @return the boolean scanned from the input
 	 * @throws InputMismatchException if the next token is not a valid boolean
 	 * @throws NoSuchElementException if input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public boolean nextBoolean() {
 		clearCaches();
@@ -1928,31 +1860,31 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a byte value in the default radix using the
-	 * {@link #nextByte} method. The HackScanner does not advance past any input.
+	 * {@link #nextByte} method. The CustomScanner does not advance past any input.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * byte value
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextByte() {
 		return hasNextByte(defaultRadix);
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a byte value in the specified radix using the
-	 * {@link #nextByte} method. The HackScanner does not advance past any input.
+	 * {@link #nextByte} method. The CustomScanner does not advance past any input.
 	 *
 	 * <p>If the radix is less than {@link Character#MIN_RADIX Character.MIN_RADIX}
 	 * or greater than {@link Character#MAX_RADIX Character.MAX_RADIX}, then an
 	 * {@code IllegalArgumentException} is thrown.
 	 *
 	 * @param radix the radix used to interpret the token as a byte value
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * byte value
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public boolean hasNextByte(int radix) {
@@ -1977,13 +1909,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * <p> An invocation of this method of the form
 	 * {@code nextByte()} behaves in exactly the same way as the
 	 * invocation {@code nextByte(radix)}, where {@code radix}
-	 * is the default radix of this HackScanner.
+	 * is the default radix of this CustomScanner.
 	 *
 	 * @return the {@code byte} scanned from the input
 	 * @throws InputMismatchException if the next token does not match the <i>Integer</i>
 	 *                                regular expression, or is out of range
 	 * @throws NoSuchElementException if input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public byte nextByte() {
 		return nextByte(defaultRadix);
@@ -1993,7 +1925,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Scans the next token of the input as a {@code byte}.
 	 * This method will throw {@code InputMismatchException}
 	 * if the next token cannot be translated into a valid byte value as
-	 * described below. If the translation is successful, the HackScanner advances
+	 * described below. If the translation is successful, the CustomScanner advances
 	 * past the input that matched.
 	 *
 	 * <p> If the next token matches the <a
@@ -2016,7 +1948,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @throws InputMismatchException   if the next token does not match the <i>Integer</i>
 	 *                                  regular expression, or is out of range
 	 * @throws NoSuchElementException   if input is exhausted
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public byte nextByte(int radix) {
@@ -2042,31 +1974,31 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a short value in the default radix using the
-	 * {@link #nextShort} method. The HackScanner does not advance past any input.
+	 * {@link #nextShort} method. The CustomScanner does not advance past any input.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * short value in the default radix
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextShort() {
 		return hasNextShort(defaultRadix);
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a short value in the specified radix using the
-	 * {@link #nextShort} method. The HackScanner does not advance past any input.
+	 * {@link #nextShort} method. The CustomScanner does not advance past any input.
 	 *
 	 * <p>If the radix is less than {@link Character#MIN_RADIX Character.MIN_RADIX}
 	 * or greater than {@link Character#MAX_RADIX Character.MAX_RADIX}, then an
 	 * {@code IllegalArgumentException} is thrown.
 	 *
 	 * @param radix the radix used to interpret the token as a short value
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * short value in the specified radix
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public boolean hasNextShort(int radix) {
@@ -2091,13 +2023,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * <p> An invocation of this method of the form
 	 * {@code nextShort()} behaves in exactly the same way as the
 	 * invocation {@link #nextShort(int) nextShort(radix)}, where {@code radix}
-	 * is the default radix of this HackScanner.
+	 * is the default radix of this CustomScanner.
 	 *
 	 * @return the {@code short} scanned from the input
 	 * @throws InputMismatchException if the next token does not match the <i>Integer</i>
 	 *                                regular expression, or is out of range
 	 * @throws NoSuchElementException if input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public short nextShort() {
 		return nextShort(defaultRadix);
@@ -2107,7 +2039,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Scans the next token of the input as a {@code short}.
 	 * This method will throw {@code InputMismatchException}
 	 * if the next token cannot be translated into a valid short value as
-	 * described below. If the translation is successful, the HackScanner advances
+	 * described below. If the translation is successful, the CustomScanner advances
 	 * past the input that matched.
 	 *
 	 * <p> If the next token matches the <a
@@ -2130,7 +2062,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @throws InputMismatchException   if the next token does not match the <i>Integer</i>
 	 *                                  regular expression, or is out of range
 	 * @throws NoSuchElementException   if input is exhausted
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public short nextShort(int radix) {
@@ -2156,31 +2088,31 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as an int value in the default radix using the
-	 * {@link #nextInt} method. The HackScanner does not advance past any input.
+	 * {@link #nextInt} method. The CustomScanner does not advance past any input.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * int value
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextInt() {
 		return hasNextInt(defaultRadix);
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as an int value in the specified radix using the
-	 * {@link #nextInt} method. The HackScanner does not advance past any input.
+	 * {@link #nextInt} method. The CustomScanner does not advance past any input.
 	 *
 	 * <p>If the radix is less than {@link Character#MIN_RADIX Character.MIN_RADIX}
 	 * or greater than {@link Character#MAX_RADIX Character.MAX_RADIX}, then an
 	 * {@code IllegalArgumentException} is thrown.
 	 *
 	 * @param radix the radix used to interpret the token as an int value
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * int value
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public boolean hasNextInt(int radix) {
@@ -2229,13 +2161,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * <p> An invocation of this method of the form
 	 * {@code nextInt()} behaves in exactly the same way as the
 	 * invocation {@code nextInt(radix)}, where {@code radix}
-	 * is the default radix of this HackScanner.
+	 * is the default radix of this CustomScanner.
 	 *
 	 * @return the {@code int} scanned from the input
 	 * @throws InputMismatchException if the next token does not match the <i>Integer</i>
 	 *                                regular expression, or is out of range
 	 * @throws NoSuchElementException if input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public int nextInt() {
 		return nextInt(defaultRadix);
@@ -2245,7 +2177,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Scans the next token of the input as an {@code int}.
 	 * This method will throw {@code InputMismatchException}
 	 * if the next token cannot be translated into a valid int value as
-	 * described below. If the translation is successful, the HackScanner advances
+	 * described below. If the translation is successful, the CustomScanner advances
 	 * past the input that matched.
 	 *
 	 * <p> If the next token matches the <a
@@ -2268,7 +2200,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @throws InputMismatchException   if the next token does not match the <i>Integer</i>
 	 *                                  regular expression, or is out of range
 	 * @throws NoSuchElementException   if input is exhausted
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public int nextInt(int radix) {
@@ -2294,31 +2226,31 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a long value in the default radix using the
-	 * {@link #nextLong} method. The HackScanner does not advance past any input.
+	 * {@link #nextLong} method. The CustomScanner does not advance past any input.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * long value
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextLong() {
 		return hasNextLong(defaultRadix);
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a long value in the specified radix using the
-	 * {@link #nextLong} method. The HackScanner does not advance past any input.
+	 * {@link #nextLong} method. The CustomScanner does not advance past any input.
 	 *
 	 * <p>If the radix is less than {@link Character#MIN_RADIX Character.MIN_RADIX}
 	 * or greater than {@link Character#MAX_RADIX Character.MAX_RADIX}, then an
 	 * {@code IllegalArgumentException} is thrown.
 	 *
 	 * @param radix the radix used to interpret the token as a long value
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * long value
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public boolean hasNextLong(int radix) {
@@ -2343,13 +2275,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * <p> An invocation of this method of the form
 	 * {@code nextLong()} behaves in exactly the same way as the
 	 * invocation {@code nextLong(radix)}, where {@code radix}
-	 * is the default radix of this HackScanner.
+	 * is the default radix of this CustomScanner.
 	 *
 	 * @return the {@code long} scanned from the input
 	 * @throws InputMismatchException if the next token does not match the <i>Integer</i>
 	 *                                regular expression, or is out of range
 	 * @throws NoSuchElementException if input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public long nextLong() {
 		return nextLong(defaultRadix);
@@ -2359,7 +2291,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Scans the next token of the input as a {@code long}.
 	 * This method will throw {@code InputMismatchException}
 	 * if the next token cannot be translated into a valid long value as
-	 * described below. If the translation is successful, the HackScanner advances
+	 * described below. If the translation is successful, the CustomScanner advances
 	 * past the input that matched.
 	 *
 	 * <p> If the next token matches the <a
@@ -2382,7 +2314,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @throws InputMismatchException   if the next token does not match the <i>Integer</i>
 	 *                                  regular expression, or is out of range
 	 * @throws NoSuchElementException   if input is exhausted
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public long nextLong(int radix) {
@@ -2460,13 +2392,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a float value using the {@link #nextFloat}
-	 * method. The HackScanner does not advance past any input.
+	 * method. The CustomScanner does not advance past any input.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * float value
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextFloat() {
 		setRadix(10);
@@ -2486,7 +2418,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Scans the next token of the input as a {@code float}.
 	 * This method will throw {@code InputMismatchException}
 	 * if the next token cannot be translated into a valid float value as
-	 * described below. If the translation is successful, the HackScanner advances
+	 * described below. If the translation is successful, the CustomScanner advances
 	 * past the input that matched.
 	 *
 	 * <p> If the next token matches the <a
@@ -2506,7 +2438,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @throws InputMismatchException if the next token does not match the <i>Float</i>
 	 *                                regular expression, or is out of range
 	 * @throws NoSuchElementException if input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public float nextFloat() {
 		// Check cached result
@@ -2526,13 +2458,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a double value using the {@link #nextDouble}
-	 * method. The HackScanner does not advance past any input.
+	 * method. The CustomScanner does not advance past any input.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * double value
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextDouble() {
 		setRadix(10);
@@ -2552,7 +2484,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * Scans the next token of the input as a {@code double}.
 	 * This method will throw {@code InputMismatchException}
 	 * if the next token cannot be translated into a valid double value.
-	 * If the translation is successful, the HackScanner advances past the input
+	 * If the translation is successful, the CustomScanner advances past the input
 	 * that matched.
 	 *
 	 * <p> If the next token matches the <a
@@ -2572,7 +2504,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @throws InputMismatchException if the next token does not match the <i>Float</i>
 	 *                                regular expression, or is out of range
 	 * @throws NoSuchElementException if the input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public double nextDouble() {
 		// Check cached result
@@ -2595,23 +2527,23 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	// Convenience methods for scanning multi precision numbers
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a {@code BigInteger} in the default radix using the
-	 * {@link #nextBigInteger} method. The HackScanner does not advance past any
+	 * {@link #nextBigInteger} method. The CustomScanner does not advance past any
 	 * input.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * {@code BigInteger}
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextBigInteger() {
 		return hasNextBigInteger(defaultRadix);
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a {@code BigInteger} in the specified radix using
-	 * the {@link #nextBigInteger} method. The HackScanner does not advance past
+	 * the {@link #nextBigInteger} method. The CustomScanner does not advance past
 	 * any input.
 	 *
 	 * <p>If the radix is less than {@link Character#MIN_RADIX Character.MIN_RADIX}
@@ -2619,9 +2551,9 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * {@code IllegalArgumentException} is thrown.
 	 *
 	 * @param radix the radix used to interpret the token as an integer
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * {@code BigInteger}
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public boolean hasNextBigInteger(int radix) {
@@ -2647,13 +2579,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * <p> An invocation of this method of the form
 	 * {@code nextBigInteger()} behaves in exactly the same way as the
 	 * invocation {@code nextBigInteger(radix)}, where {@code radix}
-	 * is the default radix of this HackScanner.
+	 * is the default radix of this CustomScanner.
 	 *
 	 * @return the {@code BigInteger} scanned from the input
 	 * @throws InputMismatchException if the next token does not match the <i>Integer</i>
 	 *                                regular expression, or is out of range
 	 * @throws NoSuchElementException if the input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public BigInteger nextBigInteger() {
 		return nextBigInteger(defaultRadix);
@@ -2681,7 +2613,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @throws InputMismatchException   if the next token does not match the <i>Integer</i>
 	 *                                  regular expression, or is out of range
 	 * @throws NoSuchElementException   if the input is exhausted
-	 * @throws IllegalStateException    if this HackScanner is closed
+	 * @throws IllegalStateException    if this CustomScanner is closed
 	 * @throws IllegalArgumentException if the radix is out of range
 	 */
 	public BigInteger nextBigInteger(int radix) {
@@ -2707,14 +2639,14 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns true if the next token in this HackScanner's input can be
+	 * Returns true if the next token in this CustomScanner's input can be
 	 * interpreted as a {@code BigDecimal} using the
-	 * {@link #nextBigDecimal} method. The HackScanner does not advance past any
+	 * {@link #nextBigDecimal} method. The CustomScanner does not advance past any
 	 * input.
 	 *
-	 * @return true if and only if this HackScanner's next token is a valid
+	 * @return true if and only if this CustomScanner's next token is a valid
 	 * {@code BigDecimal}
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 */
 	public boolean hasNextBigDecimal() {
 		setRadix(10);
@@ -2747,7 +2679,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @throws InputMismatchException if the next token does not match the <i>Decimal</i>
 	 *                                regular expression, or is out of range
 	 * @throws NoSuchElementException if the input is exhausted
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 */
 	public BigDecimal nextBigDecimal() {
 		// Check cached result
@@ -2769,25 +2701,25 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Resets this HackScanner.
+	 * Resets this CustomScanner.
 	 *
-	 * <p> Resetting a HackScanner discards all of its explicit state
+	 * <p> Resetting a CustomScanner discards all of its explicit state
 	 * information which may have been changed by invocations of
 	 * {@link #useDelimiter useDelimiter()},
 	 * {@link #useLocale useLocale()}, or
 	 * {@link #useRadix useRadix()}.
 	 *
 	 * <p> An invocation of this method of the form
-	 * {@code HackScanner.reset()} behaves in exactly the same way as the
+	 * {@code CustomScanner.reset()} behaves in exactly the same way as the
 	 * invocation
 	 *
 	 * <blockquote><pre>{@code
-	 *   HackScanner.useDelimiter("\\p{javaWhitespace}+")
+	 *   CustomScanner.useDelimiter("\\p{javaWhitespace}+")
 	 *          .useLocale(Locale.getDefault(Locale.Category.FORMAT))
 	 *          .useRadix(10);
 	 * }</pre></blockquote>
 	 *
-	 * @return this HackScanner
+	 * @return this CustomScanner
 	 * @since 1.6
 	 */
 	public CustomScanner reset() {
@@ -2800,40 +2732,40 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns a stream of delimiter-separated tokens from this HackScanner. The
+	 * Returns a stream of delimiter-separated tokens from this CustomScanner. The
 	 * stream contains the same tokens that would be returned, starting from
-	 * this HackScanner's current state, by calling the {@link #next} method
+	 * this CustomScanner's current state, by calling the {@link #next} method
 	 * repeatedly until the {@link #hasNext} method returns false.
 	 *
 	 * <p>The resulting stream is sequential and ordered. All stream elements are
 	 * non-null.
 	 *
 	 * <p>Scanning starts upon initiation of the terminal stream operation, using the
-	 * current state of this HackScanner. Subsequent calls to any methods on this HackScanner
+	 * current state of this CustomScanner. Subsequent calls to any methods on this CustomScanner
 	 * other than {@link #close} and {@link #ioException} may return undefined results
 	 * or may cause undefined effects on the returned stream. The returned stream's source
 	 * {@code Spliterator} is <em>fail-fast</em> and will, on a best-effort basis, throw a
 	 * {@link ConcurrentModificationException} if any such calls are detected
 	 * during stream pipeline execution.
 	 *
-	 * <p>After stream pipeline execution completes, this HackScanner is left in an indeterminate
+	 * <p>After stream pipeline execution completes, this CustomScanner is left in an indeterminate
 	 * state and cannot be reused.
 	 *
-	 * <p>If this HackScanner contains a resource that must be released, this HackScanner
+	 * <p>If this CustomScanner contains a resource that must be released, this CustomScanner
 	 * should be closed, either by calling its {@link #close} method, or by
-	 * closing the returned stream. Closing the stream will close the underlying HackScanner.
-	 * {@code IllegalStateException} is thrown if the HackScanner has been closed when this
-	 * method is called, or if this HackScanner is closed during stream pipeline execution.
+	 * closing the returned stream. Closing the stream will close the underlying CustomScanner.
+	 * {@code IllegalStateException} is thrown if the CustomScanner has been closed when this
+	 * method is called, or if this CustomScanner is closed during stream pipeline execution.
 	 *
 	 * <p>This method might block waiting for more input.
 	 *
 	 * @return a sequential stream of token strings
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 * @apiNote For example, the following code will create a list of
 	 * comma-delimited tokens from a string:
 	 *
 	 * <pre>{@code
-	 * List<String> result = new HackScanner("abc,def,,ghi")
+	 * List<String> result = new CustomScanner("abc,def,,ghi")
 	 *     .useDelimiter(",")
 	 *     .tokens()
 	 *     .collect(Collectors.toList());
@@ -2879,7 +2811,7 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	}
 
 	/**
-	 * Returns a stream of match results from this HackScanner. The stream
+	 * Returns a stream of match results from this CustomScanner. The stream
 	 * contains the same results in the same order that would be returned by
 	 * calling {@code findWithinHorizon(pattern, 0)} and then {@link #match}
 	 * successively as long as {@link #findWithinHorizon findWithinHorizon()}
@@ -2889,21 +2821,21 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * non-null.
 	 *
 	 * <p>Scanning starts upon initiation of the terminal stream operation, using the
-	 * current state of this HackScanner. Subsequent calls to any methods on this HackScanner
+	 * current state of this CustomScanner. Subsequent calls to any methods on this CustomScanner
 	 * other than {@link #close} and {@link #ioException} may return undefined results
 	 * or may cause undefined effects on the returned stream. The returned stream's source
 	 * {@code Spliterator} is <em>fail-fast</em> and will, on a best-effort basis, throw a
 	 * {@link ConcurrentModificationException} if any such calls are detected
 	 * during stream pipeline execution.
 	 *
-	 * <p>After stream pipeline execution completes, this HackScanner is left in an indeterminate
+	 * <p>After stream pipeline execution completes, this CustomScanner is left in an indeterminate
 	 * state and cannot be reused.
 	 *
-	 * <p>If this HackScanner contains a resource that must be released, this HackScanner
+	 * <p>If this CustomScanner contains a resource that must be released, this CustomScanner
 	 * should be closed, either by calling its {@link #close} method, or by
-	 * closing the returned stream. Closing the stream will close the underlying HackScanner.
-	 * {@code IllegalStateException} is thrown if the HackScanner has been closed when this
-	 * method is called, or if this HackScanner is closed during stream pipeline execution.
+	 * closing the returned stream. Closing the stream will close the underlying CustomScanner.
+	 * {@code IllegalStateException} is thrown if the CustomScanner has been closed when this
+	 * method is called, or if this CustomScanner is closed during stream pipeline execution.
 	 *
 	 * <p>As with the {@link #findWithinHorizon findWithinHorizon()} methods, this method
 	 * might block waiting for additional input, and it might buffer an unbounded amount of
@@ -2912,13 +2844,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * @param pattern the pattern to be matched
 	 * @return a sequential stream of match results
 	 * @throws NullPointerException  if pattern is null
-	 * @throws IllegalStateException if this HackScanner is closed
+	 * @throws IllegalStateException if this CustomScanner is closed
 	 * @apiNote For example, the following code will read a file and return a list
 	 * of all sequences of characters consisting of seven or more Latin capital
 	 * letters:
 	 *
 	 * <pre>{@code
-	 * try (HackScanner sc = new HackScanner(Path.of("input.txt"))) {
+	 * try (CustomScanner sc = new CustomScanner(Path.of("input.txt"))) {
 	 *     Pattern pat = Pattern.compile("[A-Z]{7,}");
 	 *     List<String> capWords = sc.findAll(pat)
 	 *                               .map(MatchResult::group)
@@ -2939,13 +2871,13 @@ public final class CustomScanner implements Iterator<String>, Closeable {
 	 * The effect is equivalent to the following code:
 	 *
 	 * <pre>{@code
-	 *     HackScanner.findAll(Pattern.compile(patString))
+	 *     CustomScanner.findAll(Pattern.compile(patString))
 	 * }</pre>
 	 *
 	 * @param patString the pattern string
 	 * @return a sequential stream of match results
 	 * @throws NullPointerException   if patString is null
-	 * @throws IllegalStateException  if this HackScanner is closed
+	 * @throws IllegalStateException  if this CustomScanner is closed
 	 * @throws PatternSyntaxException if the regular expression's syntax is invalid
 	 * @see Pattern
 	 * @since 9
